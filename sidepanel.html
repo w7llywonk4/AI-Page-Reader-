@@ -598,12 +598,7 @@
           <span class="brand-badge">AI</span>
         </div>
         <div class="header-btns">
-          <button class="hbtn" id="labelsBtn" title="Toggle element labels">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </button>
+          
           <button class="hbtn" id="reloadCtx" title="Reload page">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="23 4 23 10 17 10"></polyline>
@@ -628,21 +623,11 @@
       <button class="ctx-reload" id="ctxReload" title="Refresh">↺</button>
     </div>
 
-    <div class="toolbar" id="toolbar">
-      <button class="tbtn" id="scanBtn">⊡ Scan</button>
-      <button class="tbtn" id="showLabels">👁 Labels</button>
-      <div class="toolbar-sep"></div>
-      <div class="perm-toggle">
-        <button class="perm-opt active" data-mode="ask">🔒 Ask</button>
-        <button class="perm-opt" data-mode="full">⚡ Auto</button>
-      </div>
-    </div>
-
-    <div class="chat" id="chat">
+        <div class="chat" id="chat">
       <div class="welcome" id="welcome">
         <div class="orb"></div>
         <div class="welcome-title">Ready to study</div>
-        <div class="welcome-body">Ask anything about this page — or scan it and tell me to click, type, or interact with elements.</div>
+        <div class="welcome-body">Ask anything about this page and I will answer using only the page content.</div>
         <div class="chips">
           <button class="chip" data-q="Summarize this page in a few concise sentences.">
             <span class="chip-dot">●</span> Summarize this page
@@ -660,18 +645,10 @@
       </div>
     </div>
 
-    <div class="confirm-bar" id="confirmBar">
-      <div class="confirm-text" id="confirmText"></div>
-      <div class="confirm-btns">
-        <button class="cbtn yes" id="confirmYes">✓ Allow</button>
-        <button class="cbtn no" id="confirmNo">✗ Deny</button>
-      </div>
-    </div>
-
-    <div class="input-zone">
+        <div class="input-zone">
       <div class="input-card">
         <div class="input-row">
-          <textarea id="input" placeholder="Ask anything, or command: 'click the sign in button'…" rows="1"></textarea>
+          <textarea id="input" placeholder="Ask a question about this page…" rows="1"></textarea>
           <button class="send" id="sendBtn" disabled>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
