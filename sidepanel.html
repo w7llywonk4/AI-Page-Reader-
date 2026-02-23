@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>study study sahurrr</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --void:     #05070e;
+      --ink:      #080b16;
+      --surface:  #0c1020;
+      --lift:     rgba(255,255,255,0.03);
+      --rim:      rgba(80, 120, 220, 0.14);
+      --rim-hi:   rgba(100, 150, 255, 0.28);
+      --accent:   #3d6fff;
+      --accent-s: rgba(61, 111, 255, 0.12);
+      --gold:     #c4a35a;
+      --text-1:   #d8e4ff;
+      --text-2:   rgba(180, 205, 255, 0.55);
+      --text-3:   rgba(140, 170, 230, 0.28);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: var(--void);
+      color: var(--text-1);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── ambient ── */
+    .bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 90% 0%,  rgba(35,65,180,0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 0% 100%, rgba(25,50,140,0.09) 0%, transparent 65%);
+    }
+
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(1px 1px at  7% 11%, rgba(210,225,255,.65) 0%,transparent 100%),
+        radial-gradient(1px 1px at 19% 38%, rgba(210,225,255,.38) 0%,transparent 100%),
+        radial-gradient(1.5px 1.5px at 63% 6%, rgba(210,225,255,.7) 0%,transparent 100%),
+        radial-gradient(1px 1px at 82% 19%, rgba(210,225,255,.32) 0%,transparent 100%),
+        radial-gradient(1px 1px at 44% 52%, rgba(210,225,255,.28) 0%,transparent 100%),
+        radial-gradient(1px 1px at 93% 63%, rgba(210,225,255,.42) 0%,transparent 100%),
+        radial-gradient(1.5px 1.5px at 13% 77%,rgba(210,225,255,.5) 0%,transparent 100%),
+        radial-gradient(1px 1px at 51% 89%, rgba(210,225,255,.28) 0%,transparent 100%),
+        radial-gradient(1px 1px at 75% 94%, rgba(210,225,255,.38) 0%,transparent 100%),
+        radial-gradient(1px 1px at 31% 97%, rgba(210,225,255,.22) 0%,transparent 100%),
+        radial-gradient(1px 1px at 88% 44%, rgba(210,225,255,.28) 0%,transparent 100%);
+    }
+
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* ── layout ── */
+    .app {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: rgba(5, 7, 14, 0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--rim);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; top: -40px;
+      background: linear-gradient(90deg,
+        transparent 0%, rgba(30,65,180,.12) 35%,
+        rgba(61,111,255,.09) 55%, rgba(196,163,90,.05) 75%, transparent 100%);
+      filter: blur(14px);
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; gap: 10px;
+    }
+
+    .brand { display: flex; align-items: baseline; gap: 8px; }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 16.5px; font-weight: 500;
+      color: var(--text-1); letter-spacing: 0.1px; line-height: 1;
+    }
+
+    .brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px; font-weight: 500;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--gold); opacity: 0.75;
+    }
+
+    .header-btns { display: flex; align-items: center; gap: 5px; }
+
+    .hbtn {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--lift); border: 1px solid var(--rim);
+      border-radius: 8px; cursor: pointer;
+      color: var(--text-2); transition: all 0.15s;
+    }
+
+    .hbtn:hover {
+      border-color: var(--rim-hi); color: var(--text-1);
+      background: var(--accent-s);
+    }
+
+    .hbtn.active {
+      background: var(--accent-s);
+      border-color: rgba(61,111,255,0.4);
+      color: var(--accent);
+    }
+
+    .hbtn svg { width: 12px; height: 12px; }
+
+    /* ── CONTEXT STRIP ── */
+    .ctx-strip {
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      border-bottom: 1px solid var(--rim);
+      background: rgba(6, 9, 18, 0.65);
+      min-height: 32px;
+    }
+
+    .pip {
+      width: 5px; height: 5px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 5px var(--accent);
+      transition: all 0.3s;
+    }
+
+    .pip.loading { background: #f0a832; box-shadow: 0 0 5px #f0a832; animation: blink 0.9s ease-in-out infinite; }
+    .pip.ok      { animation: blink 3s ease-in-out infinite; }
+    .pip.err     { background: #e03545; box-shadow: 0 0 5px #e03545; animation: none; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .ctx-label {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px; color: var(--text-2);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      letter-spacing: 0.2px;
+    }
+
+    .elem-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; color: rgba(61,111,255,0.45);
+      letter-spacing: 0.3px; flex-shrink: 0;
+    }
+
+    .ctx-reload {
+      flex-shrink: 0;
+      background: none; border: none;
+      color: var(--text-3); cursor: pointer;
+      font-size: 12px; line-height: 1;
+      padding: 2px; border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .ctx-reload:hover { color: var(--accent); }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--rim);
+      background: rgba(6, 9, 18, 0.45);
+    }
+
+    .tbtn {
+      padding: 5px 10px;
+      background: var(--lift);
+      border: 1px solid var(--rim);
+      border-radius: 6px;
+      color: var(--text-2);
+      font-size: 10.5px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .tbtn:hover {
+      border-color: var(--rim-hi);
+      color: var(--text-1);
+      background: var(--accent-s);
+    }
+
+    .tbtn.active {
+      background: var(--accent-s);
+      border-color: rgba(61,111,255,0.4);
+      color: var(--accent);
+    }
+
+    .toolbar-sep {
+      width: 1px; height: 16px;
+      background: var(--rim); flex-shrink: 0;
+    }
+
+    /* permission toggle */
+    .perm-toggle {
+      display: flex; margin-left: auto;
+      border: 1px solid var(--rim);
+      border-radius: 6px; overflow: hidden;
+    }
+
+    .perm-opt {
+      padding: 4px 9px;
+      font-size: 9.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      transition: all 0.15s;
+      letter-spacing: 0.3px;
+    }
+
+    .perm-opt:not(:last-child) { border-right: 1px solid var(--rim); }
+
+    .perm-opt.active {
+      background: var(--accent-s);
+      color: var(--accent);
+    }
+
+    .perm-opt:hover:not(.active) {
+      background: var(--lift);
+      color: var(--text-2);
+    }
+
+    /* ── CHAT ── */
+    .chat {
+      flex: 1;
+      overflow-y: auto; overflow-x: hidden;
+      padding: 18px 14px 8px;
+      display: flex; flex-direction: column;
+      gap: 15px;
+      scroll-behavior: smooth;
+    }
+
+    .chat::-webkit-scrollbar { width: 3px; }
+    .chat::-webkit-scrollbar-thumb { background: rgba(61,111,255,.15); border-radius: 2px; }
+
+    /* welcome */
+    .welcome {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 28px 16px; gap: 13px;
+      flex: 1;
+      opacity: 0;
+      animation: floatIn 0.5s 0.15s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @keyframes floatIn {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .orb {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 36%, #90b8ff 0%, #1a3a90 45%, #04081a 100%);
+      box-shadow:
+        0 0 0 1px rgba(80,130,255,0.22),
+        0 0 22px rgba(61,111,255,0.22),
+        0 0 55px rgba(61,111,255,0.07),
+        inset 0 1px 2px rgba(255,255,255,0.18);
+      position: relative;
+      margin-bottom: 3px;
+    }
+
+    .orb::after {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(80,130,255,0.1);
+      animation: spin 5s linear infinite;
+    }
+
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .welcome-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 18px; color: var(--text-1);
+    }
+
+    .welcome-body {
+      font-size: 11.5px; color: var(--text-2);
+      line-height: 1.7; max-width: 220px; font-weight: 300;
+    }
+
+    .chips {
+      display: flex; flex-direction: column;
+      gap: 5px; width: 100%; margin-top: 3px;
+    }
+
+    .chip {
+      display: flex; align-items: center; gap: 8px;
+      text-align: left;
+      background: rgba(9, 13, 26, 0.75);
+      border: 1px solid var(--rim);
+      border-radius: 8px;
+      padding: 8px 11px;
+      cursor: pointer;
+      color: var(--text-2);
+      font-size: 11px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all 0.16s ease;
+    }
+
+    .chip-dot { color: var(--accent); font-size: 9px; flex-shrink: 0; opacity: 0.7; }
+
+    .chip:hover {
+      border-color: var(--rim-hi);
+      color: var(--text-1);
+      background: var(--accent-s);
+      transform: translateX(3px);
+    }
+
+    /* messages */
+    .msg {
+      display: flex; flex-direction: column; gap: 3px;
+      opacity: 0;
+      animation: floatIn 0.2s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    .msg.user { align-items: flex-end; }
+    .msg.ai   { align-items: flex-start; }
+
+    .msg-who {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px; letter-spacing: 1.3px;
+      text-transform: uppercase;
+      padding: 0 4px; margin-bottom: 1px;
+    }
+
+    .msg.user .msg-who { color: rgba(100,150,255,0.4); }
+    .msg.ai   .msg-who { color: rgba(196,163,90,0.6); }
+
+    .bubble {
+      max-width: 91%;
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-size: 12.5px;
+      line-height: 1.68;
+      position: relative;
+    }
+
+    .msg.user .bubble {
+      background: rgba(22, 45, 115, 0.45);
+      border: 1px solid rgba(80,130,255,0.2);
+      color: #cdd9ff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.ai .bubble {
+      background: rgba(8, 11, 22, 0.92);
+      border: 1px solid var(--rim);
+      color: var(--text-1);
+      border-bottom-left-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .msg.ai .bubble::before {
+      content: '';
+      position: absolute;
+      left: -1px; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      border-radius: 2px; opacity: 0.45;
+    }
+
+    /* action messages */
+    .msg.action {
+      align-items: center;
+    }
+
+    .msg.action .bubble {
+      max-width: 95%;
+      background: rgba(61, 111, 255, 0.05);
+      border: 1px solid rgba(61, 111, 255, 0.15);
+      color: rgba(61, 111, 255, 0.65);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .msg.action .bubble::before { display: none; }
+
+    /* thinking */
+    .bubble.thinking { padding: 12px 15px; display: flex; align-items: center; }
+    .dots { display: flex; gap: 4px; align-items: center; }
+
+    .dots span {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent);
+      animation: dot 1.3s ease-in-out infinite;
+    }
+
+    .dots span:nth-child(2) { animation-delay: 0.18s; }
+    .dots span:nth-child(3) { animation-delay: 0.36s; }
+
+    @keyframes dot {
+      0%,80%,100% { opacity:.18; transform:translateY(0); }
+      40%          { opacity:.9;  transform:translateY(-3px); }
+    }
+
+    /* error */
+    .err-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: rgba(200,40,60,.05);
+      border: 1px solid rgba(200,40,60,.18);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: #ff6a78;
+      line-height: 1.5;
+      animation: floatIn 0.2s ease forwards;
+    }
+
+    /* ── CONFIRM BAR ── */
+    .confirm-bar {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      background: rgba(8, 11, 22, 0.95);
+      border-top: 1px solid rgba(61, 111, 255, 0.25);
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .confirm-bar.visible { display: flex; }
+
+    .confirm-text {
+      font-size: 11.5px; color: var(--text-1);
+      line-height: 1.5;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .confirm-text code {
+      background: var(--accent-s);
+      color: var(--accent);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10.5px;
+    }
+
+    .confirm-btns { display: flex; gap: 8px; }
+
+    .cbtn {
+      flex: 1; padding: 7px;
+      border-radius: 7px;
+      font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .cbtn.yes {
+      background: var(--accent-s);
+      border: 1px solid rgba(61,111,255,0.35);
+      color: var(--accent);
+    }
+    .cbtn.yes:hover { background: rgba(61,111,255,0.2); }
+
+    .cbtn.no {
+      background: transparent;
+      border: 1px solid var(--rim);
+      color: var(--text-2);
+    }
+    .cbtn.no:hover { background: var(--lift); }
+
+    /* ── INPUT ── */
+    .input-zone {
+      flex-shrink: 0;
+      padding: 10px 14px 14px;
+      border-top: 1px solid var(--rim);
+      background: rgba(5,7,14,0.88);
+      backdrop-filter: blur(20px);
+    }
+
+    .input-card {
+      background: var(--surface);
+      border: 1px solid var(--rim);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-card:focus-within {
+      border-color: rgba(61,111,255,0.32);
+      box-shadow: 0 0 0 3px rgba(61,111,255,0.07), 0 6px 24px rgba(0,0,0,0.3);
+    }
+
+    .input-row {
+      display: flex; align-items: flex-end;
+      padding: 9px 9px 9px 13px; gap: 8px;
+    }
+
+    textarea {
+      flex: 1;
+      background: none; border: none; outline: none;
+      color: var(--text-1);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12.5px; font-weight: 400; line-height: 1.55;
+      resize: none;
+      max-height: 110px; min-height: 22px;
+      overflow-y: auto;
+    }
+
+    textarea::placeholder { color: var(--text-3); font-size: 12px; }
+    textarea::-webkit-scrollbar { width: 2px; }
+    textarea::-webkit-scrollbar-thumb { background: var(--rim-hi); }
+
+    .send {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      border: 1px solid rgba(61,111,255,0.35);
+      background: linear-gradient(145deg, rgba(50,90,220,0.85), rgba(22,50,155,0.85));
+      color: rgba(190,215,255,0.92);
+      box-shadow: 0 2px 10px rgba(30,60,180,0.25), inset 0 1px rgba(255,255,255,0.09);
+      transition: all 0.16s ease;
+    }
+
+    .send:hover:not(:disabled) {
+      background: linear-gradient(145deg, rgba(72,118,255,0.9), rgba(38,78,200,0.9));
+      border-color: rgba(110,155,255,0.5);
+      box-shadow: 0 3px 18px rgba(61,111,255,0.35), inset 0 1px rgba(255,255,255,0.14);
+      transform: translateY(-1px);
+    }
+
+    .send:active:not(:disabled) { transform:translateY(0); }
+    .send:disabled { opacity:.32; cursor:not-allowed; transform:none; }
+    .send svg { width:13px; height:13px; }
+
+    .input-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 5px 13px 8px;
+      border-top: 1px solid var(--rim);
+      background: rgba(6,9,18,0.45);
+    }
+
+    .foot-model {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px; color: var(--text-3); letter-spacing: 0.4px;
+    }
+
+    .foot-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5px; color: var(--text-3); letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="stars"></div>
+  <div class="grain"></div>
+
+  <div class="app">
+
+    <header class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <span class="brand-name">study study sahurrr</span>
+          <span class="brand-badge">AI</span>
+        </div>
+        <div class="header-btns">
+          <button class="hbtn" id="labelsBtn" title="Toggle element labels">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+          <button class="hbtn" id="reloadCtx" title="Reload page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+          </button>
+          <button class="hbtn" id="clearBtn" title="Clear chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+              <path d="M10 11v6M14 11v6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="ctx-strip">
+      <div class="pip loading" id="pip"></div>
+      <span class="ctx-label" id="ctxLabel">Reading page…</span>
+      <span class="elem-count" id="elemCount"></span>
+      <button class="ctx-reload" id="ctxReload" title="Refresh">↺</button>
+    </div>
+
+    <div class="toolbar" id="toolbar">
+      <button class="tbtn" id="scanBtn">⊡ Scan</button>
+      <button class="tbtn" id="showLabels">👁 Labels</button>
+      <div class="toolbar-sep"></div>
+      <div class="perm-toggle">
+        <button class="perm-opt active" data-mode="ask">🔒 Ask</button>
+        <button class="perm-opt" data-mode="full">⚡ Auto</button>
+      </div>
+    </div>
+
+    <div class="chat" id="chat">
+      <div class="welcome" id="welcome">
+        <div class="orb"></div>
+        <div class="welcome-title">Ready to study</div>
+        <div class="welcome-body">Ask anything about this page — or scan it and tell me to click, type, or interact with elements.</div>
+        <div class="chips">
+          <button class="chip" data-q="Summarize this page in a few concise sentences.">
+            <span class="chip-dot">●</span> Summarize this page
+          </button>
+          <button class="chip" data-q="What are the most important takeaways from this page?">
+            <span class="chip-dot">●</span> Key takeaways
+          </button>
+          <button class="chip" data-q="List any facts, statistics, or numbers mentioned on this page.">
+            <span class="chip-dot">●</span> Facts & numbers
+          </button>
+          <button class="chip" data-q="Explain the main concept on this page like I'm new to the topic.">
+            <span class="chip-dot">●</span> Explain it simply
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirm-bar" id="confirmBar">
+      <div class="confirm-text" id="confirmText"></div>
+      <div class="confirm-btns">
+        <button class="cbtn yes" id="confirmYes">✓ Allow</button>
+        <button class="cbtn no" id="confirmNo">✗ Deny</button>
+      </div>
+    </div>
+
+    <div class="input-zone">
+      <div class="input-card">
+        <div class="input-row">
+          <textarea id="input" placeholder="Ask anything, or command: 'click the sign in button'…" rows="1"></textarea>
+          <button class="send" id="sendBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <div class="input-foot">
+          <span class="foot-model">stepfun / step-3.5-flash</span>
+          <span class="foot-hint">↵ send · ⇧↵ newline</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
